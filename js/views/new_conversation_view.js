@@ -10,15 +10,22 @@ var Whisper = Whisper || {};
 
     removeError: function() {
       this.$el.removeClass('error');
+      this.$el.parent().find('.error-message').remove();
     },
 
     verifyNumber: function(item) {
+      var errorMessage = '';
       try {
         if (libphonenumber.util.verifyNumber(this.$el.val())) {
           this.removeError();
           return;
         }
-      } catch(ex) { console.log(ex); }
+      } catch(ex) {
+        console.log(ex);
+        errorMessage = ex;
+      }
+      this.$el.parent().find('.error-message').remove();
+      this.$el.after( "<p class='error-message'>" + errorMessage + "</p>");
       this.$el.addClass('error');
     }
   });
